@@ -52,10 +52,23 @@
             "defaultValue": "hadoop",
             "allowedValues": [
                 "hadoop",
-                "hbase"
+                "hbase",
+                "spark"
             ],
             "metadata": {
                 "description": "The type of HDInsight cluster to create."
+            }
+        },
+        "clusterVersion": {
+            "type": "string",
+            "defaultValue": "3.4.1000.0",
+            "allowedValues": [
+                "3.2",
+                "3.3",
+                "3.4.1000.0"
+            ],
+            "metadata": {
+                "description": "The version of HDInsight cluster to create."
             }
         },
         "clusterLoginUserName": {
@@ -109,7 +122,7 @@
         },
         "edgeNodeVirtualMachineSize": {
             "type": "string",
-            "defaultValue": "Standard_D1",
+            "defaultValue": "Standard_A3",
             "allowedValues": [
                 "Standard_A1",
                 "Standard_A2",
@@ -118,7 +131,8 @@
                 "Standard_D1",
                 "Standard_D2",
                 "Standard_D3",
-                "Standard_D4"
+                "Standard_D4",
+                "Standard_D13_V2"
             ],
             "metadata": {
                 "description": "The size of the edge node virtual machine."
@@ -194,7 +208,7 @@
             ],
             "tags": { },
             "properties": {
-                "clusterVersion": "3.2",
+                "clusterVersion": "[parameters('clusterVersion')]",
                 "osType": "Linux",
                 "clusterDefinition": {
                     "kind": "[parameters('clusterType')]",
