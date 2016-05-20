@@ -11,6 +11,9 @@
         "clusterType": { 
             "value": "hadoop"
         },
+        "clusterVersion": {
+            "value": "3.4.1000.0"
+        },
         "clusterStorageAccountName": {
             "value": "changeme"
         },
