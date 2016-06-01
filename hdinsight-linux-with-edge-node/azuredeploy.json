@@ -138,9 +138,9 @@
                 "description": "The size of the edge node virtual machine."
             }
         },
-        "edgeNodeSetupScriptUri": {
+        "webWasbTestScriptUri": {
             "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/hdinsight-linux-with-edge-node/connectToWASB.sh",
+            "defaultValue": "https://raw.githubusercontent.com/chucknelson/azure-quickstart-templates/edgenode-script-testing/hdinsight-linux-with-edge-node/connectToWASB.sh",
             "metadata": { 
                 "description": "A public http(s) uri that points to a script that will install an app on the edge node."
             }
@@ -428,10 +428,10 @@
                 "typeHandlerVersion": "1.2",
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/hdinsight-linux-with-edge-node/edgeNodeSetup.sh",
-                        "[parameters('edgeNodeSetupScriptUri')]"
+                        "https://raw.githubusercontent.com/chucknelson/azure-quickstart-templates/edgenode-script-testing/hdinsight-linux-with-edge-node/edgeNodeSetup.sh",
+                        "[parameters('webWasbTestScriptUri')]"
                     ],
-                    "commandToExecute": "[concat('sudo -E bash edgeNodeSetup.sh ',parameters('edgeNodeSetupScriptUri'),' ',parameters('clusterName'),' ',parameters('sshUserName'),' ',parameters('sshPassword'),' ',parameters('clusterLoginUserName'),' ',parameters('clusterLoginPassword'))]"
+                    "commandToExecute": "[(echo Skipping edge node setup script, will test separately)]"
                 }
             }
         }
