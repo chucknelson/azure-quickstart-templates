@@ -431,7 +431,7 @@
                         "https://raw.githubusercontent.com/chucknelson/azure-quickstart-templates/edgenode-script-testing/hdinsight-linux-with-edge-node/edgeNodeSetup.sh",
                         "[parameters('webWasbTestScriptUri')]"
                     ],
-                    "commandToExecute": "[(echo Skipping edge node setup script, will test separately)]"
+                    "commandToExecute": "['echo Skipping edge node setup script, will test separately']"
                 }
             }
         }
