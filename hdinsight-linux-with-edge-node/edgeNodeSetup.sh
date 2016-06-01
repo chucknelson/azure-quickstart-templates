@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 appInstallScriptUri=$1
 clustername=$2
 clusterSshUser=$3
