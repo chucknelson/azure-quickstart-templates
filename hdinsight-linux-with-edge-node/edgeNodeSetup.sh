@@ -19,7 +19,7 @@ fi
 echo "Installing sshpass"
 apt-get -y -qq install sshpass
 
-#Copying configs
+#Copying configspu
 echo "Copying configs and cluster resources local"
 tmpFilePath=~/tmpConfigs
 mkdir -p $tmpFilePath
