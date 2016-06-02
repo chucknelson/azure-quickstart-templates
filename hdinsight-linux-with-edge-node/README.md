@@ -9,17 +9,12 @@ Create HDInsight Linux Cluster with Edge Node:
     <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 
-Template creates an HDInsight Linux cluster in a virtual network with a Linux VM as an edge node that is bootstrapped with the cluster's Hadoop configurations.
+Template creates an HDInsight Linux cluster in a virtual network with a Linux VM as an edge node that is bootstrapped with the cluster's Hadoop/HDP configurations.
 
-***Note***: This branch is for testing the edge node setup script manually. The script is not run in the deployment.
+***Note***: This branch is for testing a rewritten edge node setup script.
 
-The edge node has the following cluster configurations located locally on the node:<br />
-* Hadoop Configs including core-site.xml, hdfs-site.xml, mapred-site.xml, and yarn-site.xml located at /etc/hadoop/conf <br />
-* hive-site.xml located at /etc/hive/conf
-
-Additionally, the edge node has WebWasb, a WebHDFS implementation over the WASB Storage System. <br />
-WebWasb allows you to access and execute commands against the default WASB container of the cluster using the WebHDFS interface.<br />
+This deployment template has been tested successfully with HDI 3.4 clusters, but does not yet work with Spark cluster types.
 
 
-WebWasb can be accessed using localhost as the hostname and 50073 as the port name.
-As an example, if you wanted to list all files and directories at the root of the cluster's storage account, you could execute <pre>curl http://localhost:50073/WebWasb/webhdfs/v1/?op=LISTSTATUS</pre>
+
+
