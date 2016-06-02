@@ -99,7 +99,7 @@ echo "HDI and HDP resources have been copied/installed."
 
 ### Cleanup
 echo "Moving HDI and HDP resource zip, copy, unzip logs to ${HOME} for review (if needed)"
-mv logs ~/
+mv $tmpFilePath/logs ~/
 
 echo "Cleaning up temporary files locally and on the cluster"
 rm -r $tmpFilePath
