@@ -17,6 +17,7 @@ echo "Installing Java OpenJDK 7 (openjdk-7-jdk)"
 apt-get -y -qq install openjdk-7-jdk
 
 ### Add edge node machine name to /etc/hosts or many Hadoop operations will complain and/or fail
+echo "Adding edge node machine name/host name to /etc/hosts - some Hadoop command complain and/or fail without it"
 sed -i "s/127.0.0.1 localhost$/127.0.0.1 localhost $HOSTNAME/" /etc/hosts
 
 ### Adding HDI cluster to the VM's known hosts so we can SSH without warnings
