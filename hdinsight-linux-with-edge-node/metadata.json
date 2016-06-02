@@ -3,5 +3,5 @@
   "description": "Template creates an HDInsight Linux cluster in a virtual network with another vm as an edge node that is bootstrapped with the clusters configurations.",
   "githubUsername": "anthony-murphy, chucknelson",
   "summary": "Template creates an HDInsight Linux cluster in a virtual network with another vm as an edge node that is bootstrapped with the clusters configurations.",
-  "dateUpdated": "2016-06-01"
+  "dateUpdated": "2016-06-02"
 }

@@ -16,8 +16,8 @@ apt-get -y -qq install sshpass
 echo "Installing Java OpenJDK 7 (openjdk-7-jdk)"
 apt-get -y -qq install openjdk-7-jdk
 
-### Add edge node machine name to /etc/hosts or many Hadoop operations will fail
-sed -i "s/127.0.0.1 localhost$/127.0.0.1 localhost $HOSTNAME/" hosts
+### Add edge node machine name to /etc/hosts or many Hadoop operations will complain and/or fail
+sed -i "s/127.0.0.1 localhost$/127.0.0.1 localhost $HOSTNAME/" /etc/hosts
 
 ### Adding HDI cluster to the VM's known hosts so we can SSH without warnings
 # NOTE: When running via sudo, use the -H option to enforce the root user's' home directory (where .ssh/known_hosts is stored), otherwise there will be host authorization issues when using ssh/sshpass.

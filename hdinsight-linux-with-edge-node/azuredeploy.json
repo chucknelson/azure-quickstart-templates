@@ -137,13 +137,6 @@
             "metadata": {
                 "description": "The size of the edge node virtual machine."
             }
-        },
-        "webWasbTestScriptUri": {
-            "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/chucknelson/azure-quickstart-templates/edgenode-script-testing/hdinsight-linux-with-edge-node/connectToWASB.sh",
-            "metadata": { 
-                "description": "A public http(s) uri that points to a script that will install an app on the edge node."
-            }
         }
     },
     "variables": {
@@ -156,7 +149,7 @@
         "edgeNodeImagePublisher": "Canonical",
         "edgeNodeImageOffer": "UbuntuServer",
         "edgeNodeImageSku": "12.04.5-LTS",
-        "edgeNodeExtensionName": "edgeNodeSetup",
+        "edgeNodeExtensionName": "hdiEdgeNodeSetup",
         "edgeNodeOSDiskName": "[concat(parameters('clusterName'), '-', parameters('edgeNodeVirtualMachineName'))]",
         "edgeNodeNicName": "[concat(variables('clusterVNetName'), '-', parameters('edgeNodeVirtualMachineName'), '-nic')]",
         "edgeNodePublicIpName": "[concat(variables('edgeNodeNicName'), '-publicip')]",
@@ -428,10 +421,9 @@
                 "typeHandlerVersion": "1.2",
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/chucknelson/azure-quickstart-templates/edgenode-script-testing/hdinsight-linux-with-edge-node/edgeNodeSetup.sh",
-                        "[parameters('webWasbTestScriptUri')]"
+                        "https://raw.githubusercontent.com/chucknelson/azure-quickstart-templates/edgenode-script-testing/hdinsight-linux-with-edge-node/hdiEdgeNodeSetup.sh"
                     ],
-                    "commandToExecute": "['echo Skipping edge node setup script, will test separately']"
+                    "commandToExecute": "[concat('sudo -EH bash hdiEdgeNodeSetup.sh ',parameters('clusterName'),' ',parameters('sshUserName'),' ',parameters('sshPassword'))]"
                 }
             }
         }
