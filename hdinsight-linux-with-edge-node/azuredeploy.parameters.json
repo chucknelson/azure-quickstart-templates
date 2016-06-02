@@ -17,10 +17,22 @@
         "clusterStorageAccountName": {
             "value": "changeme"
         },
-        "edgeNodeVhdStorageAccountName": {
-            "value": "changeme2"
+        "clusterWorkerNodeCount": {
+            "value": "changeme"
+        },
+        "clusterHeadNodeVirtualMachineSize": {
+            "value": "changeme"
+        },
+        "clusterWorkerNodeVirtualMachineSize": {
+            "value": "changeme"
         },
         "edgeNodeVirtualMachineName": {
+            "value": "changeme"
+        },
+        "edgeNodeVhdStorageAccountName": {
+            "value": "changeme"
+        },
+        "edgeNodeVirtualMachineSize": {
             "value": "changeme"
         },
         "clusterLoginUserName": {
