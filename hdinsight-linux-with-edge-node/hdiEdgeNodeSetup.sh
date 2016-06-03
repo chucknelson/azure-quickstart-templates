@@ -3,6 +3,8 @@
 ### Shell script for copying configuration, supporting libraries and binaries from a Microsoft Azure HDInsight (HDI) cluster to an edge node.
 ### Tested with an HDI 3.4 version cluster and Ubuntu 12.04 Linux VM as the edge node.
 
+### Usage: sudo -EH bash hdiEdgeNodeSetup.sh <clustername> <sshuser> '<sshpassword in single quotes>'
+
 ### Script variables
 clusterName=$1
 clusterSshUser=$2
@@ -21,8 +23,8 @@ echo "Adding edge node machine name/host name to /etc/hosts - some Hadoop comman
 sed -i "s/127.0.0.1 localhost$/127.0.0.1 localhost $HOSTNAME/" /etc/hosts
 
 ### Adding HDI cluster to the VM's known hosts so we can SSH without warnings
-# NOTE: When running via sudo, use the -H option to enforce the root user's' home directory (where .ssh/known_hosts is stored), otherwise there will be host authorization issues when using ssh/sshpass.
-clusterSshHostName="$clusterName-ssh.azurehdinsight.net"
+# NOTE: The sudo -H option enforces the root user's' home directory (where .ssh/known_hosts is stored) to allow sshpass to work as expected.
+clusterSshHostName="$(echo $clusterName-ssh.azurehdinsight.net | tr '[:upper:]' '[:lower:]')" # enforce lowercase for ssh-keyscan / known_hosts compatibility
 echo "Adding cluster host's ($clusterSshHostName) public key to VM's known hosts if it does not exist"
 knownHostKey=$(ssh-keygen -H -F $clusterSshHostName 2>/dev/null)
 if [ -z "$knownHostKey" ];
