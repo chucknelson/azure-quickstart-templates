@@ -3,7 +3,7 @@
 ### Shell script for copying configuration, supporting libraries and binaries from a Microsoft Azure HDInsight (HDI) cluster to an edge node.
 ### Tested with an HDI 3.4 version cluster and Ubuntu 12.04 Linux VM as the edge node.
 
-### Usage: sudo -EH bash hdiEdgeNodeSetup.sh <clustername> <sshuser> '<sshpassword in single quotes>'
+### Usage: sudo -EH bash hdiEdgeNodeSetup.sh <clustername> <sshuser> '<sshpassword in single quotes>' | tee /home/<your user>/hdiEdgeNodeSetup.log
 
 ### Script variables
 clusterName=$1
