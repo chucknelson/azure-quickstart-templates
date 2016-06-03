@@ -57,7 +57,7 @@ zipRemoteDirectory() {
 # Zip relevant HDI and HDP directories and files into the remote temporary file directory.
 zipRemoteFiles() { # expects a path (e.g., /usr/bin, /usr/lib) and output zip filename (e.g., hdi-usr-bin.tar.gz)
   echo "Zipping relevant HDI and HDP files from cluster for path $1"
-  sshpass -p $clusterSshPw ssh $clusterSshUser@$clusterSshHostName 'find '$1' -maxdepth 1 -regextype posix-egrep -regex ".*(accumulo|ambari|atlas|failover|falcon|flume|hadoop|hbase|hdinsight|hive|kafka|knox|livy|mahout|oozie|phoenix|pig|ranger|slider|spark|sqoop|storm|tez|zeppelin|zookeeper|hdinsight).*" -o -lname "*/hdp*" | sort | tar -vczf ~/'$tmpRemoteFolderName'/'$2' --files-from -' &>$tmpFilePath/logs/$2.zip.log #redirect stdout and stderr to a log file for review if errors occur
+  sshpass -p $clusterSshPw ssh $clusterSshUser@$clusterSshHostName 'find '$1' -maxdepth 1 -regextype posix-egrep -regex ".*(accumulo|ambari|anaconda|atlas|failover|falcon|flume|hadoop|hbase|hdinsight|hdp-select|hive|kafka|knox|livy|mahout|oozie|phoenix|pig|ranger|slider|spark|sqoop|storm|tez|zeppelin|zookeeper|hdinsight).*" -o -lname "*/hdp*" | sort | tar -vczf ~/'$tmpRemoteFolderName'/'$2' --files-from -' &>$tmpFilePath/logs/$2.zip.log #redirect stdout and stderr to a log file for review if errors occur
   echo "HDI and HDP files from cluster in $1 zipped to ~/$tmpRemoteFolderName/$2"
 }
 
@@ -87,7 +87,7 @@ echo "Copying various HDI and HDP resource paths, many required due to symlinks"
 RESOURCEPATHS=(/usr/bin /usr/lib /usr/lib/python2.7/dist-packages /etc /var/lib) # Known binary, library and configuration paths for HDI and HDP
 for path in "${RESOURCEPATHS[@]}"
 do
-	resourceFileName=hdi-$(echo $path | sed 's:/::; s:/:-:g').tar.gz
+  resourceFileName=hdi-$(echo $path | sed 's:/::; s:/:-:g').tar.gz
   zipRemoteFiles $path $resourceFileName
   copyRemoteFile $resourceFileName $tmpFilePath
   unzipFile $resourceFileName $tmpFilePath
@@ -97,11 +97,15 @@ echo "Finished HDI and HDP resource copy from cluster"
 
 echo "Copying HDI and HDP resources to final destination on edge node (/etc, /usr, /var)"
 cp -r $tmpFilePath/{etc,usr,var} /
+
+echo "Copying HDI and HDP environment variables"
+sshpass -p $clusterSshPw scp $clusterSshUser@$clusterSshHostName:"/etc/environment" "/etc/environment" &>$tmpFilePath/logs/etc-environment.copy.log
+
 echo "HDI and HDP resources have been copied/installed."
 
 ### Cleanup
-echo "Moving HDI and HDP resource zip, copy, unzip logs to ${HOME} for review (if needed)"
-mv $tmpFilePath/logs ~/
+echo "Moving HDI and HDP resource zip, copy, unzip logs to $clusterSshUser home directory for review (if needed)"
+mv $tmpFilePath/logs /home/$clusterSshUser/hdiEdgeNodeSetupLogs
 
 echo "Cleaning up temporary files locally and on the cluster"
 rm -r $tmpFilePath
