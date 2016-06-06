@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ### Shell script for copying configuration, supporting libraries and binaries from a Microsoft Azure HDInsight (HDI) cluster to an edge node.
-### Tested with an HDI 3.4 version cluster and Ubuntu 12.04 Linux VM as the edge node.
+### Tested with an HDI 3.4 version cluster and an Ubuntu Linux VM (both 12.04 LTS and 14.04 LTS) as the edge node.
 
 ### Usage: sudo -EH bash hdiEdgeNodeSetup.sh <clustername> <sshuser> '<sshpassword in single quotes>' | tee /home/<your user>/hdiEdgeNodeSetup.log
 
@@ -12,11 +12,19 @@ clusterSshPw=$3
 
 ### Install sshpass for passing remote commands through to the cluster.
 echo "Installing sshpass"
-apt-get -y -qq install sshpass
+while ! apt-get -y -qq install sshpass
+do  
+  echo "sshpass install failed, retrying..."
+  sleep 3s
+done
 
 ### Install Java, it's required for Hadoop and its related projects'
 echo "Installing Java OpenJDK 7 (openjdk-7-jdk)"
-apt-get -y -qq install openjdk-7-jdk
+while ! apt-get -y -qq install openjdk-7-jdk
+do
+  echo "Java install failed, retrying..."
+  sleep 3s
+done
 
 ### Add edge node machine name to /etc/hosts or many Hadoop operations will complain and/or fail
 echo "Adding edge node machine name/host name to /etc/hosts - some Hadoop command complain and/or fail without it"
