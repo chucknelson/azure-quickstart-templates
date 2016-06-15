@@ -10,21 +10,36 @@ clusterName=$1
 clusterSshUser=$2
 clusterSshPw=$3
 
+### Helper apt-get install function
+tryAptGetInstall() {
+  local retryMax=3
+  local retryCount=0
+
+  echo "Installing $1"
+  while ! apt-get -y -qq install $1 && [ $retryCount -le $retryMax ]
+  do
+    if (( retryCount == retryMax ))
+    then
+      echo "Install failed after multiple retry attempts, exiting"
+      exit 1
+    else
+      (( retryCount++ ))
+      echo "Install failed - retry attempt #$retryCount"
+      sleep 3s
+    fi
+  done
+}
+
+### Update apt-get sources and any installed packages.
+echo "Updating apt-get and its packages"
+apt-get update
+apt-get upgrade
+
 ### Install sshpass for passing remote commands through to the cluster.
-echo "Installing sshpass"
-while ! apt-get -y -qq install sshpass
-do  
-  echo "sshpass install failed, retrying..."
-  sleep 3s
-done
+tryAptGetInstall sshpass
 
 ### Install Java, it's required for Hadoop and its related projects'
-echo "Installing Java OpenJDK 7 (openjdk-7-jdk)"
-while ! apt-get -y -qq install openjdk-7-jdk
-do
-  echo "Java install failed, retrying..."
-  sleep 3s
-done
+tryAptGetInstall openjdk-7-jdk
 
 ### Add edge node machine name to /etc/hosts or many Hadoop operations will complain and/or fail
 echo "Adding edge node machine name/host name to /etc/hosts - some Hadoop command complain and/or fail without it"
